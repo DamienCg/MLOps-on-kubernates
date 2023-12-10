@@ -5,6 +5,6 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app1.py .
+COPY external_source.py .
 
-CMD ["python", "app1.py"]
+CMD ["python", "external_source.py"]

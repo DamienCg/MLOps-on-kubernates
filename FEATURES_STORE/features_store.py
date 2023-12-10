@@ -19,7 +19,7 @@ def write_to_db():
         db.session.add(new_item)
         db.session.commit()
 
-        return jsonify({'id': new_item.id, 'message': 'Item added successfully'}), 201
+        return jsonify({'id': new_item.id, 'message': 'scrittura sul FEATURES STORE avvenuta'}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

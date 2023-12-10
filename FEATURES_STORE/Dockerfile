@@ -11,4 +11,4 @@ COPY . .
 EXPOSE 4949
 
 # Avvia l'applicazione
-CMD ["python", "app3.py"]
+CMD ["python", "features_store.py"]

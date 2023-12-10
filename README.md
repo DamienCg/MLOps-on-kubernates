@@ -1,38 +1,73 @@
-```bash
-
 # Start Minikube
 
 ```bash
 minikube start
+docker login
 
-## Build and Run app1 Docker Container
-cd app1
-docker build -t app1 .
-docker run --network="host" app1
 
-# Apply app1-service.yaml:
+## Build apply service and Run app1 Docker Container
+cd EXTERNAL_SOURCE_DATA_STORE
+docker build -t external_source_ds .
+#docker tag app1 damiencg/externaldata:v1.0
+#docker push damiencg/externaldata:v1.0
+kubectl apply -f external_source_ds_service.yaml
+docker run --network="host" external_source_ds
 
-kubectl apply -f app1-service.yaml
 
-## Build and Run app3 Docker Container
-cd app3DataStore
-docker build -t app3 .
-docker run --network="host" app3
 
-# Apply app3-service.yaml:
+## Build apply service and Run app3 Docker Container
+cd FEATURES_STORE
+docker build -t features_store .
+#docker tag app1 damiencg/featuresstore:v1.0
+#docker push damiencg/featuresstore:v1.0
+kubectl apply -f features_store_service.yaml
+docker run --network="host" features_store
 
-kubectl apply -f app3-service.yaml
+
 
 # Build and run app2 Docker container:
+cd DATA_MANAGEMENT_PIPELINE
+docker build -t data_management .
+#docker tag app2 damiencg/ingpipeline:v1.0
+#docker push damiencg/ingpipeline:v1.0
+docker run --network="host" data_management
+
+
+
 cd ..
-cd app2
-docker build -t app2 .
-docker run --network="host" app2
+cd MODEL_MANAGEMENT_PIPELINE
+docker build -t model_management .
+docker run --network="host" model_management
+
 
 # Apply pod.yaml
 cd ..
-kubectl apply -f pod.yaml
+kubectl apply -f mlops_workflow_pod.yaml
 
 # Applica crone
 cd app2
 kubectl apply -f cronjob.yaml
+
+
+
+kubectl get cronjobs
+kubectl describe cronjob data_management-cronjob
+kubectl logs --selector=job-name=data_management-cronjob-28367542
+kubectl get pods --watch
+
+#######
+
+EXTERNAL_SOURCE_DATA_STORE
+app1-service -> external_source_ds_service
+app1 -> external_source_ds
+app1.py -> external_source.py
+app1-container -> external_source_ds_container
+
+app3DataStore -> FEATURES_STORE
+app3 -> features_store
+app3-service.yaml -> features_store_service.yaml
+app3.py -> features_store.py
+app3-container features_store_container
+
+[folder] app2 --> DATA_MANAGEMENT_PIPELINE
+app2 -> data_management

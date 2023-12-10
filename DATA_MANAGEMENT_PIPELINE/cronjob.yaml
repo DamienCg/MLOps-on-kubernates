@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: data_management-cronjob
+spec:
+  schedule: "*/2 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: data_management_container
+            image: data_management:latest
+            command:
+            - python
+            - data_management.py
+          restartPolicy: OnFailure

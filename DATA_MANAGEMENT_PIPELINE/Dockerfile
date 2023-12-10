@@ -5,6 +5,6 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app2.py .
+COPY data_management.py .
 
-CMD ["python", "app2.py"]
+CMD ["python", "data_management.py"]
