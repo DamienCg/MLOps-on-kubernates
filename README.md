@@ -35,9 +35,20 @@ docker run --network="host" data_management
 
 
 cd ..
+cd MODEL_STORE
+docker build -t model_store .
+kubectl apply -f model_store_service.yaml
+docker run --network="host" model_store
+
+
 cd MODEL_MANAGEMENT_PIPELINE
 docker build -t model_management .
 docker run --network="host" model_management
+
+cd ..
+cd WEB_APP
+docker build -t webapp .
+docker run --network="host" webapp
 
 
 # Apply pod.yaml
@@ -54,20 +65,3 @@ kubectl get cronjobs
 kubectl describe cronjob data_management-cronjob
 kubectl logs --selector=job-name=data_management-cronjob-28367542
 kubectl get pods --watch
-
-#######
-
-EXTERNAL_SOURCE_DATA_STORE
-app1-service -> external_source_ds_service
-app1 -> external_source_ds
-app1.py -> external_source.py
-app1-container -> external_source_ds_container
-
-app3DataStore -> FEATURES_STORE
-app3 -> features_store
-app3-service.yaml -> features_store_service.yaml
-app3.py -> features_store.py
-app3-container features_store_container
-
-[folder] app2 --> DATA_MANAGEMENT_PIPELINE
-app2 -> data_management

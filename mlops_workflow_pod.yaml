@@ -12,3 +12,7 @@ spec:
     image: data_management
   - name: features_store_container
     image: features_store  
+  - name: model_store_mlflow_container
+    image: model_store_mlflow
+  - name: model_management_container
+    image: model_management

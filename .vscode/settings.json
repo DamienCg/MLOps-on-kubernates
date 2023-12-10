@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./MODEL_MANAGEMENT_PIPELINE/mlops_mlflow"
+    ]
+}

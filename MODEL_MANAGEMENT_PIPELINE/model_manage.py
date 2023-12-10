@@ -1,4 +1,5 @@
 import requests
+from trainvaltest import train_dest_val
 
 # URL del FEATURES_STORE
 base_url = 'http://localhost:4949'
@@ -16,3 +17,7 @@ if response.status_code == 200:
     print(f'La model management legge dal features store: {content_read}')
 else:
     print(f'Errore durante la lettura: {response.status_code} - {response.json()}')
+
+
+
+train_dest_val()
