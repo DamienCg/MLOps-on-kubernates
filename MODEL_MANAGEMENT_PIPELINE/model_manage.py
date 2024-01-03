@@ -1,5 +1,5 @@
 import requests
-from trainvaltest import train_dest_val
+from trainvaltest import train_test_val
 
 # URL del FEATURES_STORE
 base_url = 'http://localhost:4949'
@@ -20,4 +20,4 @@ else:
 
 
 
-train_dest_val()
+train_test_val()

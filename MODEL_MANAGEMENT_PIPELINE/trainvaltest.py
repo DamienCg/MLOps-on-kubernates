@@ -1,7 +1,7 @@
 import requests
 
 
-def train_dest_val():
+def train_test_val():
     print("SONO SU MODEL MANAGEMENT, ALLENO IL MODELLO")
     print("SALVO IL MODELLO")
 

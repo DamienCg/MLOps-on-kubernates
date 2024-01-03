@@ -1,8 +1,5 @@
 import requests
-import json
-from pathlib import Path
-from datetime import datetime
-import requests
+from data_processor import preprocess
 
 url = "http://localhost:5000"
 
@@ -27,7 +24,7 @@ write_api_url = f'{base_url}/api/write'
 # API per leggere
 read_api_url = f'{base_url}/api/read'
 
-content_to_write = 'CIAOO!'
+content_to_write = preprocess(response.text)
 write_data = {'content': content_to_write}
 response = requests.post(write_api_url, json=write_data)
 
