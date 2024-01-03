@@ -4,7 +4,7 @@ from pathlib import Path
 from datetime import datetime
 import requests
 
-url = "http://127.0.0.1:5000"
+url = "http://localhost:5000"
 
 response = requests.get(url)
 

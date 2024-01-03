@@ -7,7 +7,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Espone la porta 5000
 EXPOSE 4949
 
 # Avvia l'applicazione

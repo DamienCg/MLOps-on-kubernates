@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: external-source-ds
+    image: external-source-ds-image
+
+  - name: features-store
+    image: features-store-image
+
+  - name: data-management
+    image: data-management-image
+
+
+  - name: model-store
+    image: model-store-image
+
+  - name: model-management
+    image: model-management-image
+
+  - name: webapp
+    image: webapp-image
+

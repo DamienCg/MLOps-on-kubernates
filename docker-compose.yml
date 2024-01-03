@@ -1,0 +1,41 @@
+version: '1'
+
+services:
+  external_source_ds:
+    build:
+      context: ./EXTERNAL_SOURCE_DATA_STORE
+    network_mode: host
+
+  features_store:
+    build:
+      context: ./FEATURES_STORE
+    network_mode: host
+
+  data_management:
+    build:
+      context: ./DATA_MANAGEMENT_PIPELINE
+    network_mode: host
+    depends_on:
+      - external_source_ds
+      - features_store
+
+  model_store:
+    build:
+      context: ./MODEL_STORE
+    network_mode: host
+    depends_on:
+      - data_management
+
+  model_management:
+    build:
+      context: ./MODEL_MANAGEMENT_PIPELINE
+    network_mode: host
+    depends_on:
+      - model_store
+
+  webapp:
+    build:
+      context: ./WEB_APP
+    network_mode: host
+    depends_on:
+      - model_management
