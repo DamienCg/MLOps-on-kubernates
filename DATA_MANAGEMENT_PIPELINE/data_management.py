@@ -9,7 +9,7 @@ print("DATA MANAGEMENT AVVIATA!")
 
 if response.status_code == 200:
 
-    print(f"La data management recupera dati dalla fonte esterna: {response.text}")
+    print(f"La data management recupera dati dalla fonte esterna")
 
 else:
     print(f"Error in the request: {response.status_code}")
@@ -30,7 +30,7 @@ response = requests.post(write_api_url, json=write_data)
 
 if response.status_code == 201:
     item_id = response.json().get('id')
-    print('La data management scrive: '+content_to_write+"sul features store")
+    print('La data management scrive: sul features store')
 
 else:
     print(f'Errore durante la scrittura: {response.status_code} - {response.json()}')

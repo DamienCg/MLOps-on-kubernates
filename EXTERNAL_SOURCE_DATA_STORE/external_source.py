@@ -2,13 +2,15 @@ from flask import Flask, jsonify
 import pandas as pd
 import os
 
+# Carica il dataset Iris
 app = Flask(__name__)
 
 @app.route('/')
 def get_data():
     try:
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(script_dir, 'data_file.csv')
+        file_path = os.path.join(script_dir, 'iris_dataset.csv')
+
         if file_path.endswith('.csv'):
             data = pd.read_csv(file_path)
         elif file_path.endswith('.xlsx'):
@@ -17,6 +19,7 @@ def get_data():
             raise ValueError("Il formato del file non è supportato.")
 
         json_data = data.to_json(orient='records')
+        
         return jsonify({"data": json_data})
     except Exception as e:
         return jsonify({"error": str(e)}), 500

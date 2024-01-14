@@ -1,19 +1,31 @@
 import requests
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
 
+# Carica il dataset Iris
+iris = load_iris()
+X = iris.data
+y = iris.target
 
+# Dividi il dataset in training e test set
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 print("SONO SULLA WEBAPP")
 print("CARICO IL MODELLO")
 
+json_dati_per_inferece = X_test[0].tolist()
+
 # Esempio di richiesta GET per ottenere l'ultima entry
-get_last_entry_url = 'http://localhost:6070/get_last_entry'
-    
-response = requests.get(get_last_entry_url)
+endpoint_url = 'http://localhost:6070/get_predict'
+
+
+response = requests.post(endpoint_url, json=json_dati_per_inferece)
+
 
 # Verifica della risposta
 if response.status_code == 200:
     data = response.json()
-    print(f'Ultimo MODELLO nel database: {data}')
+    print(f'PREVISIONE: {data}')
 else:
     print(f'Errore durante il recupero dei dati: {response.text}')
 
