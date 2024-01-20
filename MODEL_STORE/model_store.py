@@ -1,9 +1,14 @@
-from flask import Flask, request, jsonify
+import os
+from flask import Flask, Response, request, jsonify
 import sqlite3
 import time
+import psutil
 from inference import predict
+from prometheus_flask_exporter import PrometheusMetrics
+import json
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 
 conn = sqlite3.connect('local_db.db')
 cursor = conn.cursor()
@@ -17,6 +22,23 @@ cursor.execute('''
 ''')
 conn.commit()
 conn.close()
+
+
+def refresh_value_matrics(Inference_time):
+    # Nome del file JSON
+    file_path = "./metric_inference.json"
+
+    # Carica il contenuto del file JSON
+    with open(file_path, 'r') as file:
+        data = json.load(file)
+
+    # Aggiorna i valori
+    data["Inference_time"] = Inference_time
+
+    # Risalva il file JSON sovrascrivendo il vecchio
+    with open(file_path, 'w') as file:
+        json.dump(data, file, indent=2)
+
 
 @app.route('/save_checkpoint', methods=['POST'])
 def save_checkpoint_to_db():
@@ -66,12 +88,39 @@ def get_latest_checkpoint():
     cursor.execute('SELECT checkpoint FROM entries ORDER BY time_stamp DESC LIMIT 1')
     checkpoint = cursor.fetchone()
     checkpoint = checkpoint[0]
+    
+    # Calcolo del tempo impiegato per l'esecuzione dello script
+    start_time = time.time()
+    result = predict(data, checkpoint)
+    end_time = time.time()
+    inference_duration = end_time - start_time
+
+    # Misura della memoria RAM utilizzata
+    memory_used = psutil.Process(os.getpid()).memory_info().rss
+
+    refresh_value_matrics(inference_duration)
+   
 
     # TODO crea un dataload dal json sample ricevuto
     # dataloader from json (data) TODO DA FARE!
-    return str(predict(data,checkpoint))
+    return str(result)
 
+@app.route('/metrics')
+def metrics():
 
+    file_path = "./metric_inference.json"
+
+    # Carica il contenuto del file JSON
+    with open(file_path, 'r') as file:
+        data = json.load(file)
+
+    view_metric = {'Inference_time':  data["Inference_time"]}
+
+    metrics = ""
+    for Inference_time in view_metric.items():
+        metrics += 'Inference_details{metric="%s"} %s\n' % (Inference_time)
+
+    return metrics
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=6070)

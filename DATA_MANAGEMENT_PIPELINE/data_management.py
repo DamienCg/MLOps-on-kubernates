@@ -1,7 +1,7 @@
 import requests
 from data_processor import preprocess
 
-url = "http://localhost:5000"
+url = "http://external_source_ds:5000"
 
 response = requests.get(url)
 
@@ -16,7 +16,7 @@ else:
 
 
 # URL del FEATURES_STORE
-base_url = 'http://localhost:4949'
+base_url = 'http://features_store:4949'
 
 # API per scrivere
 write_api_url = f'{base_url}/api/write'

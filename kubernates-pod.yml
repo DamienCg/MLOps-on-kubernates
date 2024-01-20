@@ -1,25 +1,23 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: mypod
+  name: pod-mlops
 spec:
   containers:
-  - name: external-source-ds
-    image: external-source-ds-image
+    - name: external-source-ds
+      image: mlops-on-kubernates-external_source_ds 
 
-  - name: features-store
-    image: features-store-image
+    - name: features-store
+      image: mlops-on-kubernates-features_store  
 
-  - name: data-management
-    image: data-management-image
+    - name: data-management
+      image: mlops-on-kubernates-data_management
 
+    - name: model-store
+      image: mlops-on-kubernates-model_store
+      
+    - name: model-management
+      image: mlops-on-kubernates-model_management 
 
-  - name: model-store
-    image: model-store-image
-
-  - name: model-management
-    image: model-management-image
-
-  - name: webapp
-    image: webapp-image
-
+    - name: webapp
+      image: mlops-on-kubernates-webapp

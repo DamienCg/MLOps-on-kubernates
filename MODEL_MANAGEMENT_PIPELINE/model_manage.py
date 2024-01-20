@@ -2,7 +2,7 @@ import requests
 from trainvaltest import train_test_val
 
 # URL del FEATURES_STORE
-base_url = 'http://localhost:4949'
+base_url = 'http://features_store:4949'
 
 # API per leggere
 read_api_url = f'{base_url}/api/read'
@@ -18,7 +18,7 @@ if response.status_code == 200:
     checkpoint,precision = train_test_val(content_read)
     if checkpoint is not None:
         print("Salvo il checkpoint sul model store")
-        endpoint_url = 'http://localhost:6070/save_checkpoint'
+        endpoint_url = 'http://model_store:6070/save_checkpoint'
 
         files = {'checkpoint': checkpoint['checkpoint']}
         data = {'precision': str(precision)}

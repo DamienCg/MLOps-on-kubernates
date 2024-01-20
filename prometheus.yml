@@ -1,0 +1,6 @@
+global:
+  scrape_interval: 15s
+scrape_configs:
+  - job_name: 'Prometheus'
+    static_configs:
+      - targets: ['model_store:6070']
